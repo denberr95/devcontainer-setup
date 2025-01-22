@@ -1,0 +1,12 @@
+{
+    "name": "Golang Development",
+    "dockerFile": "Containerfile",
+    "appPort": 9000,
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.Go"
+            ]
+        }
+    }
+}
