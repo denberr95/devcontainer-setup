@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"log"
+)
 
 func main() {
-	fmt.Print("Hello")
+	log.Println("I'm a Go application !")
 }

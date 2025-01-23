@@ -10,7 +10,9 @@ ARG USER_GID=${USER_UID}
 
 RUN apk add --no-cache git sudo openssh-client zsh curl openssl \
     && addgroup -g ${USER_GID} ${GROUNAME} \
-    && adduser -u ${USER_UID} -G ${GROUNAME} -s /bin/zsh -D ${USERNAME}
+    && adduser -u ${USER_UID} -G ${GROUNAME} -s /bin/zsh -D ${USERNAME} \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
 
 RUN go install github.com/cweill/gotests/gotests@latest \
     && go install -v github.com/fatih/gomodifytags@latest \
@@ -20,5 +22,7 @@ RUN go install github.com/cweill/gotests/gotests@latest \
     && go install -v golang.org/x/tools/gopls@latest \
     && go install -v golang.org/x/tools/cmd/goimports@latest
 
+RUN chown appuser:appgroup --recursive /go \
+    && ls -lR /go
+
 USER ${USERNAME}
-WORKDIR /home/${USERNAME}
