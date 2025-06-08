@@ -1,0 +1,30 @@
+{
+    "name": "Angular Development",
+    "forwardPorts": [
+        3000,
+        4200
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "johnpapa.angular-essentials",
+                "Angular.ng-template",
+                "Mikael.Angular-BeastCode",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "bradlc.vscode-tailwindcss"
+            ],
+            "settings": {
+                "files.associations": {
+                    "*.css": "tailwindcss"
+                },
+                "editor.quickSuggestions": {
+                    "strings": "on"
+                }
+            }
+        }
+    },
+    "build": {
+        "dockerfile": "Containerfile"
+    }
+}

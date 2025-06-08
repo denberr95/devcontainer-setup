@@ -1,0 +1,15 @@
+ARG ALPINE_VERSION=3.22
+ARG NODE_VERSION=24
+
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION}
+
+ARG USERNAME=appuser
+ARG USER_UID=1001
+
+RUN apk add --no-cache git sudo openssh-client zsh curl openssl
+RUN adduser -u ${USER_UID} -G node -s /bin/zsh -D ${USERNAME}
+RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+RUN chmod 0440 /etc/sudoers.d/$USERNAME
+RUN npm install -g @angular/cli
+
+USER ${USERNAME}
