@@ -1,0 +1,17 @@
+ARG ALPINE_VERSION=3.22
+ARG PYTHON_VERSION=3.13.5
+
+FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION}
+
+ARG USERNAME=appuser
+ARG GROUNAME=appgroup
+ARG USER_UID=1000
+ARG USER_GID=${USER_UID}
+
+RUN apk add --no-cache git sudo openssh-client zsh curl openssl
+RUN addgroup -g ${USER_GID} ${GROUNAME}
+RUN adduser -u ${USER_UID} -G ${GROUNAME} -s /bin/zsh -D ${USERNAME}
+RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+RUN chmod 0440 /etc/sudoers.d/$USERNAME
+
+USER ${USERNAME}
