@@ -4,30 +4,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "podman-volume-remove",
-            "type": "shell",
-            "command": "podman volume rm --force --all",
-            "group": "none",
-        },
-        {
-            "label": "podman-image-remove",
-            "type": "shell",
-            "command": "podman image rm --force --all",
-            "group": "none",
-        },
-        {
-            "label": "podman-container-remove",
-            "type": "shell",
-            "command": "podman container rm --force --all",
-            "group": "none",
-        },
-        {
-            "label": "podman-system-prune",
-            "type": "shell",
-            "command": "podman system prune --force --all --volumes",
-            "group": "none",
-        },
-        {
             "label": "go-mod-tidy",
             "type": "shell",
             "command": "go mod tidy",
