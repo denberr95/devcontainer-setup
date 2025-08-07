@@ -36,7 +36,7 @@
         {
             "label": "go-build-darwin-amd64",
             "type": "shell",
-            "command": "GOOS=darwin GOARCH=arm64 go build -o bin/app-darwin-amd64",
+            "command": "GOOS=darwin GOARCH=amd64 go build -o bin/app-darwin-amd64",
             "group": "build",
         },
         {
