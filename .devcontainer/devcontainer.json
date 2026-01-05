@@ -1,16 +1,22 @@
 {
-    "name": "Golang Development",
-    "forwardPorts": [
-        9000
-    ],
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "golang.Go"
-            ]
-        }
-    },
-    "build": {
-        "dockerfile": "Containerfile"
+  "name": "Golang Development",
+  "forwardPorts": [
+    9000
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.Go",
+        "eriklynd.json-tools",
+        "DavidAnson.vscode-markdownlint",
+        "adamhartford.vscode-base64",
+        "redhat.vscode-xml",
+        "DotJoshJohnson.xml",
+        "redhat.vscode-yaml"
+      ]
     }
+  },
+  "build": {
+    "dockerfile": "Containerfile"
+  }
 }
