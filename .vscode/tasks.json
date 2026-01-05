@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "create-venv",
+      "group": "build",
+      "type": "shell",
+      "command": "python3 -m venv .venv",
+      "windows": {
+        "command": "py -m venv .venv"
+      }
+    },
+    {
+      "label": "install-requirements",
+      "group": "build",
+      "type": "shell",
+      "command": "python -m pip install -r requirements.txt",
+      "windows": {
+        "command": "py -m pip install -r requirements.txt"
+      }
+    }
+  ]
+}
