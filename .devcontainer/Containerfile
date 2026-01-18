@@ -49,6 +49,9 @@ RUN echo "https://apk.bell-sw.com/main" | tee -a /etc/apk/repositories \
   && mkdir ${DEV_USER_HOME}/.m2 ${DEV_USER_HOME}/go \
   && chown --recursive ${DEV_USER}:${DEV_GROUP} ${DEV_USER_HOME}
 
+# ===== Copy external files =====
+COPY mvn/settings.xml ${DEV_USER_HOME}/.m2/settings.xml
+
 # ===== Set working directory =====
 WORKDIR ${DEV_USER_HOME}
 
