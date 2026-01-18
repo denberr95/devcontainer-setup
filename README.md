@@ -3,4 +3,10 @@
 ## General Setup
 
 - [Containerfile](./.devcontainer/Containerfile)
-- [Tasks](./.vscode/tasks.json)
+
+## Environments Setup
+
+- Java
+- Python
+- Golang
+- Alpine
