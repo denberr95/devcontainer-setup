@@ -1,26 +1,77 @@
-ARG GO_VERSION=1.25.5
+#  ===== Default OS Version =====
+ARG ALPINE_VERSION=3.23
 
-FROM golang:${GO_VERSION}-alpine
+#  ===== Base image =====
+FROM alpine:${ALPINE_VERSION} AS base
 
-ARG USERNAME=appuser
-ARG GROUNAME=appgroup
+#  ===== Arguments =====
+ARG DEV_USER=appuser
+ARG DEV_GROUP=appgroup
+ARG DEV_USER_HOME=/home/${DEV_USER}
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
 
-RUN apk add --no-cache git sudo openssh-client zsh curl openssl
-RUN addgroup -g ${USER_GID} ${GROUNAME}
-RUN adduser -u ${USER_UID} -G ${GROUNAME} -s /bin/zsh -D ${USERNAME}
-RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
-RUN chmod 0440 /etc/sudoers.d/$USERNAME
+# ===== Environment =====
+# Java
+ENV JAVA_HOME=/usr/lib/jvm/java-25-openjdk
 
-RUN go install -v github.com/cweill/gotests/gotests@latest
-RUN go install -v github.com/fatih/gomodifytags@latest
-RUN go install -v github.com/josharian/impl@latest
-RUN go install -v github.com/go-delve/delve/cmd/dlv@latest
-RUN go install -v honnef.co/go/tools/cmd/staticcheck@latest
-RUN go install -v golang.org/x/tools/gopls@latest
-RUN go install -v golang.org/x/tools/cmd/goimports@latest
+# Maven
+ENV MAVEN_HOME=/usr/share/java/maven-3
+ENV MAVEN_CONFIG=/home/${DEV_USER}/.m2
 
-RUN chown appuser:appgroup --recursive /go
+# Golang
+ENV GOROOT=/usr/lib/go
+ENV GOPATH=${DEV_USER_HOME}/go
 
-USER ${USERNAME}
+# System
+ENV PATH="${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${GOROOT}/bin:${PATH}"
+
+# ===== Install utilities, update binaries, create user, set permissions and clean up =====
+RUN echo "https://apk.bell-sw.com/main" | tee -a /etc/apk/repositories \
+  && wget -P /etc/apk/keys/ \
+  https://apk.bell-sw.com/info@bell-sw.com-5fea454e.rsa.pub \
+  && apk add --no-cache \
+  git \
+  curl \
+  openssl \
+  bash \
+  python3 \
+  py3-pip \
+  ca-certificates \
+  tar \
+  maven \
+  go \
+  bellsoft-java25 \
+	&& apk upgrade --no-cache \
+	&& rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
+	&& addgroup -g ${USER_GID} ${DEV_GROUP} \
+	&& adduser -u ${USER_UID} -G ${DEV_GROUP} -s /bin/sh -D ${DEV_USER} \
+  && mkdir ${DEV_USER_HOME}/.m2 ${DEV_USER_HOME}/go \
+  && chown --recursive ${DEV_USER}:${DEV_GROUP} ${DEV_USER_HOME}
+
+# ===== Set working directory =====
+WORKDIR ${DEV_USER_HOME}
+
+# ===== Use non-root user =====
+USER ${DEV_USER}
+
+# ===== Check software =====
+RUN python3 --version \
+  && java --version \
+  && mvn --version \
+  && git --version \
+  && go version \
+  && echo "JAVA_HOME=$JAVA_HOME" \
+  && echo "MAVEN_HOME=$MAVEN_HOME" \
+  && echo "MAVEN_CONFIG=$MAVEN_CONFIG" \
+  && echo "GOPATH=$GOPATH" \
+  && echo "GOROOT=$GOROOT" \
+  && python3 -m pip install --break-system-packages pre-commit poetry \
+  && go install -v github.com/cweill/gotests/gotests@latest \
+  && go install -v github.com/fatih/gomodifytags@latest \
+  && go install -v github.com/josharian/impl@latest \
+  && go install -v github.com/go-delve/delve/cmd/dlv@latest \
+  && go install -v honnef.co/go/tools/cmd/staticcheck@latest \
+  && go install -v golang.org/x/tools/gopls@latest \
+  && go install -v golang.org/x/tools/cmd/goimports@latest \
+  && go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@latest

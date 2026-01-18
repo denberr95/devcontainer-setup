@@ -1,7 +1,12 @@
 {
-  "name": "Golang Development",
+  "name": "Multi-language Development",
   "forwardPorts": [
-    9000
+    8080,
+    8081,
+    9090,
+    9091,
+    10000,
+    10001
   ],
   "customizations": {
     "vscode": {
@@ -12,7 +17,20 @@
         "adamhartford.vscode-base64",
         "redhat.vscode-xml",
         "DotJoshJohnson.xml",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "vmware.vscode-boot-dev-pack",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-spring-initializr",
+        "redhat.java",
+        "vscjava.vscode-java-debug",
+        "vscjava.vscode-java-test",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-java-dependency",
+        "SonarSource.sonarlint-vscode",
+        "redhat.vscode-quarkus",
+        "redhat.fabric8-analytics",
+        "redhat.vscode-microprofile",
+        "tomoki1207.pdf"
       ]
     }
   },

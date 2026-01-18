@@ -1,6 +1,6 @@
 # Devcontainer Setup
 
-## Golang Setup
+## General Setup
 
 - [Containerfile](./.devcontainer/Containerfile)
 - [Tasks](./.vscode/tasks.json)
